@@ -7,12 +7,14 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     compile 'org.mongodb:mongodb-driver-sync:4.0.6'
+    compile 'net.dv8tion:JDA:4.2.0_247'
 }
 
 test {
