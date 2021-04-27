@@ -19,6 +19,7 @@ public class Main {
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.watching("you complete your deadlines {help for info"));
 
-       
+        jda.addEventListener(new Commands());
+
     }
 }
