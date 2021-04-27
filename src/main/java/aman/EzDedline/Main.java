@@ -15,11 +15,17 @@ public class Main {
 
     public static void main(String[] args) throws LoginException
     {
-        jda = JDABuilder.createDefault("ODM2MjcNDYxMDU5MjQ4MTY4.YIboNw.HavP8vOVxxoFjnTXcTtKmYVIUjY").build();
+        jda = JDABuilder.createDefault("ODM2Mjc1NDYxMDU5MjQ4MTY4.YIboNw.sDfgoz8lOy5gUTAFlcBaIZSWI0Q").build();
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.watching("you complete your deadlines {help for info"));
 
         jda.addEventListener(new Commands());
+        jda.addEventListener(new Clear());
+        jda.addEventListener(new Add_dl());
+        jda.addEventListener(new Remove_dl());
+        jda.addEventListener(new Update_dl());
+        jda.addEventListener(new Show_dl());
+
 
     }
 }
