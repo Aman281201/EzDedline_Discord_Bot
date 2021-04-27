@@ -14,7 +14,7 @@ public class Commands extends ListenerAdapter {
         if (args[0].equalsIgnoreCase(Main.prefix + "help"))
         {
             EmbedBuilder help = new EmbedBuilder();
-            help.setTitle("🐱‍👤 EzDedline bot info");
+            help.setTitle("\uD83D\uDC31\u200D\uD83D\uDC64 EzDedline bot info");
             help.setDescription("Common commands for this bot");
             help.addField("{add","to add deadlines",false);
             help.addField("{show","to view deadlines",false);
