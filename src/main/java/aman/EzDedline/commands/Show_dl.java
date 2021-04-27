@@ -16,7 +16,7 @@ public class Show_dl extends ListenerAdapter {
         {
             EmbedBuilder show = new EmbedBuilder();
             show.setTitle("Show Deadlines ");
-            show.setDescription("\uD83D\uDC31\u200D\uD83C\uDFCDThese are your deadlines <currently under-construction>");
+            show.setDescription("\uD83D\uDC31\u200D\uD83C\uDFCDThese are your deadlines ");
             show.setColor(Color.decode("#6666ff"));
             show.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 

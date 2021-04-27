@@ -17,7 +17,14 @@ public class Clear extends ListenerAdapter {
         if(args[0].equalsIgnoreCase(Main.prefix + "clear"))
         {
             if(args.length < 2){
-                //TODO error
+                //unflow
+                EmbedBuilder undrf = new EmbedBuilder();
+                undrf.setColor(Color.decode("#ff4d4d"));
+                undrf.setTitle("Enter in proper format");
+                undrf.setDescription("You must enter in following format {clear <number>");
+                undrf.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                event.getChannel().sendMessage(undrf.build()).queue();
             }
             else {
                 try {
