@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.swing.text.Document;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,11 +47,18 @@ public class Add_dl extends ListenerAdapter {
                 try {
                     Date date = sdf.parse(date_time);
                     Mongo data_mongo = new Mongo();
+                    data_mongo.main("abc");
+
+                    EmbedBuilder success = new EmbedBuilder();
+                    success.setColor(Color.decode("#80ff80"));
+                    success.setTitle("Success");
+                    success.setDescription("Successfully added deadline " + Add_dl.name + " of " + Add_dl.course );
+                    success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                    event.getChannel().sendMessage(success.build()).queue();
 
 
-
-
-                } catch (ParseException e) {
+                } catch (ParseException | UnknownHostException e) {
                     EmbedBuilder err = new EmbedBuilder();
                     err.setTitle("Information enetered is either wrong or in wrong format");
                     err.setDescription("Enter in following format {add <Name> <course> <Time(hh:mm)> <Date(dd/mm/yyyy)>");
