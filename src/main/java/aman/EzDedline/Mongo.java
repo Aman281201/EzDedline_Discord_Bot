@@ -1,39 +1,54 @@
 package aman.EzDedline;
 import aman.EzDedline.commands.Add_dl;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.BasicDBObject;
+import com.mongodb.ConnectionString;
+import com.mongodb.WriteConcern;
+import com.mongodb.client.*;
 import com.mongodb.MongoCredential;
+import org.bson.Document;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import com.mongodb.MongoClientSettings;
+
+import com.mongodb.ServerAddress;
 
 
-import javax.swing.text.Document;
+
+import java.net.UnknownHostException;
 
 public class Mongo {
-    public static void main(String[] args)
+    public static void main(String args) throws UnknownHostException
     {
-    // connect to local instance in unsecured mode
-    String uri = "mongodb+srv://amank:aman@ezdedlinecluster.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
+    String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
+
     MongoClient mongoClient = MongoClients.create(uri);
 
     MongoDatabase DB = MongoClients.create().getDatabase("DB");
-    MongoCollection collection = DB.getCollection("collection1");
+    MongoCollection<Document> collection = DB.getCollection("collection1");
 
     Add_dl ad = new Add_dl();
     String name = ad.name;
     String course = ad.course;
     String dat_tm = ad.date_time;
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", name);
-        jsonObject.put("course", course);
-        jsonObject.put("dat_tm", dat_tm);
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("name", name);
+//        jsonObject.put("course", course);
+//        jsonObject.put("dat_tm", dat_tm);
+// BasicDBObject doc = new BasicDBObject();
 
-        collection.insertOne(jsonObject);
+        Document doc = new Document();
+
+        doc.append("name", name);
+        doc.append("course",course);
+        doc.append("dat_tm", dat_tm);
 
 
+        System.out.println(collection);
+        collection.insertOne(doc);
 
     }
+
+
 }
