@@ -24,7 +24,8 @@ public class Mongo_show {
 
         MongoDatabase DB = MongoClients.create().getDatabase("DB");
         MongoCollection<Document> collection = DB.getCollection("collection1");
-        MongoCursor cursor = (MongoCursor) collection.find();
+        FindIterable<Document> iterable =  collection.find();
+        MongoCursor<Document> cursor = iterable.iterator();
 
         EmbedBuilder show_2 = new EmbedBuilder();
         int l = 0;
@@ -32,10 +33,14 @@ public class Mongo_show {
             // weekly and daily deadlines
 
 
-            if (cursor.hasNext()) {
-                DBObject field = (DBObject) cursor.next();
+            while (cursor.hasNext()) {
+                //DBObject field =  cursor.next();
+                System.out.println(cursor.next().get("dat_tm"));
+                String dat_tm = (String) cursor.next().get("dat_tm");
 
-                String dat_tm = (String) field.get("dat_tm");
+                System.out.println(dat_tm);
+
+
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
                 Date date1 = null;
 
@@ -48,7 +53,7 @@ public class Mongo_show {
 
                 Date date2 = new Date();
                 String date_end = sdf.format(date2);
-                int d = Integer.getInteger(date_end.substring(6, 8));
+                int d = Integer.parseInt(date_end.substring(6, 8));
                 int m = date2.getMonth() + 1;
                 int y = date1.getYear();
                 d = d + t;
@@ -85,8 +90,8 @@ public class Mongo_show {
                     Date date3 = sdf.parse(date_end);
                     if (date1.after(date2) && date1.before(date3)) {
 
-                        String name = (String) field.get("name");
-                        String course = (String) field.get("course");
+                        String name = (String) cursor.next().get("name");
+                        String course = (String) cursor.next().get("course");
                         l++;
                         show_2.addField("[" + l + "] " + name + " " + course, "Due on " + dat_tm, false);
                     }
@@ -99,10 +104,10 @@ public class Mongo_show {
 
             }
         } else {
-            if (cursor.hasNext()) {
-                DBObject field = (DBObject) cursor.next();
+            while (cursor.hasNext()) {
+                //DBObject field = (DBObject) cursor.next();
 
-                String dat_tm = (String) field.get("dat_tm");
+                String dat_tm = (String) cursor.next().get("dat_tm");
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
                 Date date1 = null;
 
@@ -115,10 +120,14 @@ public class Mongo_show {
 
                 Date date2 = new Date();
 
+                System.out.println("date1 "+date1);
+                System.out.println("  \n");
+                System.out.println("date2 " + date2);
                 if (date1.after(date2)) {
 
-                    String name = (String) field.get("name");
-                    String course = (String) field.get("course");
+                    System.out.println("hi ****************");
+                    String name = (String) cursor.next().get("name");
+                    String course = (String) cursor.next().get("course");
                     l++;
                     show_2.addField("[" + l + "] " + name + " " + course, "Due on " + dat_tm, false);
                 }

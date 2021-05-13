@@ -40,6 +40,7 @@ public class Mongo {
 
         Document doc = new Document();
 
+
         doc.append("name", name);
         doc.append("course",course);
         doc.append("dat_tm", dat_tm);
