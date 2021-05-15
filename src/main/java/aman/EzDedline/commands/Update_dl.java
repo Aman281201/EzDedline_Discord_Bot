@@ -16,8 +16,8 @@ public class Update_dl extends ListenerAdapter {
         {
             if(args.length >= 7) {
                 EmbedBuilder update = new EmbedBuilder();
-                String new_name = args[3] , new_course = args[4] , new_date = "";
-
+                String new_name = args[3] , new_course = args[4] , new_date = args[6], new_time = args[5];
+                String old_name = args[1] , old_course = args[2];
                 try {
                     update.setTitle("\uD83D\uDC31\u200D\uD83D\uDE80Update Deadline ");
                     update.setDescription("Enter the date time and name of deadline you wish to update <currently under-construction>");
@@ -39,8 +39,8 @@ public class Update_dl extends ListenerAdapter {
                 }
                 catch (IllegalArgumentException e){
                     EmbedBuilder err = new EmbedBuilder();
-                    err.setTitle("Information enetered is either wrong or in wrong format");
-                    err.setDescription("Enter in following format {add <Name> <course> <Time(hh:mm)> <Date(dd/mm/yyyy)>");
+                    err.setTitle("Information entered is either wrong or in wrong format");
+                    err.setDescription("Enter in following format {update <Name> <course> <Time(hh:mm)> <Date(dd/mm/yyyy)>");
                     err.setColor(Color.decode("#ff4d4d"));
                     err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
@@ -55,7 +55,7 @@ public class Update_dl extends ListenerAdapter {
                 update.setTitle("\uD83D\uDC31\u200D\uD83D\uDE80Update Deadline ");
                 update.setDescription("enter in the following way");
                 update.addField("{update <Old name> <course> <New name> <Updated course> <Updated Time(hh:mm)> <Updated Date(dd/mm/yyyy)>", "to update the deadline", false);
-                update.addField("Use </> in place of <field>","If you wish to keep the field same as before", false);
+                update.addField("Use </> in place of <field>","If you wish to keep the field same as before (not valid for Old name and course)", false);
                 update.setColor(Color.decode("#a366ff"));
                 update.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 

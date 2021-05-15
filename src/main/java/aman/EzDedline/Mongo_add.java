@@ -17,7 +17,7 @@ import com.mongodb.ServerAddress;
 
 import java.net.UnknownHostException;
 
-public class Mongo {
+public class Mongo_add {
     public static void main(String args) throws UnknownHostException
     {
     String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";

@@ -1,12 +1,11 @@
 package aman.EzDedline.commands;
 
 import aman.EzDedline.Main;
-import aman.EzDedline.Mongo;
+import aman.EzDedline.Mongo_add;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import javax.swing.text.Document;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +45,7 @@ public class Add_dl extends ListenerAdapter {
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
                 try {
                     Date date = sdf.parse(date_time);
-                    Mongo data_mongo = new Mongo();
+                    Mongo_add data_mongo = new Mongo_add();
                     data_mongo.main("abc");
 
                     EmbedBuilder success = new EmbedBuilder();
