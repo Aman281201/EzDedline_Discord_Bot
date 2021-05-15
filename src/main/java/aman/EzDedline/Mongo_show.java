@@ -108,11 +108,18 @@ public class Mongo_show {
                 //DBObject field = (DBObject) cursor.next();
 
                 String dat_tm = (String) cursor.next().get("dat_tm");
+                String name = (String) cursor.next().get("name");
+                String course = (String) cursor.next().get("course") ;
+
+                System.out.println(name + "  " + course);
+
+
+
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
                 Date date1 = null;
 
                 try {
-                    date1 = sdf.parse(dat_tm);
+                   date1 = sdf.parse(dat_tm);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -120,14 +127,12 @@ public class Mongo_show {
 
                 Date date2 = new Date();
 
-                System.out.println("date1 "+date1);
+                System.out.println("date1 "+ date1);
                 System.out.println("  \n");
                 System.out.println("date2 " + date2);
                 if (date1.after(date2)) {
+                    System.out.println("****** hey");
 
-                    System.out.println("hi ****************");
-                    String name = (String) cursor.next().get("name");
-                    String course = (String) cursor.next().get("course");
                     l++;
                     show_2.addField("[" + l + "] " + name + " " + course, "Due on " + dat_tm, false);
                 }

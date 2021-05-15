@@ -59,7 +59,7 @@ public class Show_dl extends ListenerAdapter {
             else {
                 EmbedBuilder show = new EmbedBuilder();
                 show.setTitle("\uD83D\uDC31\u200D\uD83C\uDFCDShow Deadlines ");
-                show.setDescription("enter following commands for procise results");
+                show.setDescription("enter following commands for precise results");
                 show.addField("{show today", "to see today's deadlines", false);
                 show.addField("{show weekly", "to see deadlines of this week", false);
                 show.addField("{show all", "to see all the deadlines", false);
