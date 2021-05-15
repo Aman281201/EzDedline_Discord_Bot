@@ -18,7 +18,7 @@ public class Commands extends ListenerAdapter {
             help.setDescription("Common commands for this bot");
             help.addField("{add","to add deadlines",false);
             help.addField("{show","to view deadlines",false);
-            help.addField("{delete","to remove deadline",false);
+            help.addField("{remove","to remove deadline",false);
             help.addField("{update","to change the deadline info",false);
 
             help.setColor(Color.decode("#99ffff"));

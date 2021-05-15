@@ -27,6 +27,7 @@ public class Mongo_show {
         FindIterable<Document> iterable =  collection.find();
         MongoCursor<Document> cursor = iterable.iterator();
 
+
         EmbedBuilder show_2 = new EmbedBuilder();
         int l = 0;
         if (t != 0) {

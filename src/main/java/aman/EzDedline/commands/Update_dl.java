@@ -53,9 +53,9 @@ public class Update_dl extends ListenerAdapter {
             else{
                 EmbedBuilder update = new EmbedBuilder();
                 update.setTitle("\uD83D\uDC31\u200D\uD83D\uDE80Update Deadline ");
-                update.setDescription("enter in the following way");
-                update.addField("{update <Old name> <course> <New name> <Updated course> <Updated Time(hh:mm)> <Updated Date(dd/mm/yyyy)>", "to update the deadline", false);
-                update.addField("Use </> in place of <field>","If you wish to keep the field same as before (not valid for Old name and course)", false);
+                update.setDescription("For updating the deadline");
+                update.addField("{update <o name> <o course> <n name> <n course> <n time(hh:mm)> <n date(dd/mm/yyyy)>", "o - old information, n - updated information", false);
+                update.addField("Use </> instead of <field>","To keep the field same as before", false);
                 update.setColor(Color.decode("#a366ff"));
                 update.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 

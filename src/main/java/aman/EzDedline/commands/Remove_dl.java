@@ -1,6 +1,7 @@
 package aman.EzDedline.commands;
 
 import aman.EzDedline.Main;
+import aman.EzDedline.Mongo_remove;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -12,14 +13,15 @@ public class Remove_dl extends ListenerAdapter {
     {
         String[] args = event.getMessage().getContentRaw().split("\\s+");
 
-        if(args[0].equalsIgnoreCase(Main.prefix + "delete"))
+        if(args[0].equalsIgnoreCase(Main.prefix + "remove"))
         {
 
-            if(args.length >= 3) {
+            if(args.length >= 2) {
                 String name = args[1], course = args[2];
+                Boolean y = false;
                 try {
-
-
+                    Mongo_remove mongo_remove = new Mongo_remove();
+                    mongo_remove.main(name, course, y);
 
 
                     EmbedBuilder success = new EmbedBuilder();
@@ -35,7 +37,7 @@ public class Remove_dl extends ListenerAdapter {
                 {
                     EmbedBuilder err = new EmbedBuilder();
                     err.setTitle("Information entered is either wrong or in wrong format");
-                    err.setDescription("Enter in following format {remove <Name> <course>");
+                    err.setDescription("Enter in following format {remove <Name> <course> or {remove all");
                     err.setColor(Color.decode("#ff4d4d"));
                     err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
@@ -49,8 +51,8 @@ public class Remove_dl extends ListenerAdapter {
             else
             {
                 EmbedBuilder remove = new EmbedBuilder();
-                remove.setTitle("Remove Deadline ");
-                remove.setDescription("\uD83D\uDC31\u200D\uD83D\uDC09Enter the following commands for precise results");
+                remove.setTitle("\uD83D\uDC31\u200D\uD83D\uDC09Remove Deadline ");
+                remove.setDescription("Enter the following commands for precise results");
                 remove.addField("{remove <Name> <Course>", "to remove the deadline", false);
                 remove.addField("{remove all", "to clear all the deadlines", false);
                 remove.setColor(Color.decode("#3366ff"));
