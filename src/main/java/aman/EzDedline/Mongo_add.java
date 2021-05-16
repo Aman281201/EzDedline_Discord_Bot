@@ -49,6 +49,7 @@ public class Mongo_add {
         System.out.println(collection);
         collection.insertOne(doc);
 
+        mongoClient.close();
     }
 
 

@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 
 public class Mongo_remove {
 
-    public static void main(String name = "" , String course, int key)
+    public static void main(String name , String course, int key)
     {
         final String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
         MongoClient mongoClient = MongoClients.create(uri);
@@ -36,12 +36,19 @@ public class Mongo_remove {
             while(cur.hasNext())
             {
                 String dat_tm , n, c;
-                dat_tm = (String) cur.next().get("dat_tm");
                 n = (String) cur.next().get("name");
+                System.out.println(n + "\n");
                 c = (String) cur.next().get("course");
+                System.out.println(c);
+                dat_tm = (String) cur.next().get("dat_tm");
+                System.out.println(dat_tm);
+
+
+
+
 
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
-                Date date1; // current date
+                Date date1 = new Date(); // current date
                 Date date2 = null;
                 try {
                     date2 = sdf.parse(dat_tm);
@@ -51,6 +58,7 @@ public class Mongo_remove {
                 }
                 if(date1.after(date2))
                 {
+                    System.out.println("*****hii");
                     Document doc = new Document();
                     doc.append("name", n).append("course", c);
 
@@ -68,6 +76,7 @@ public class Mongo_remove {
             collection.deleteMany(del_all);
         }
 
+        mongoClient.close();
 
     }
 }

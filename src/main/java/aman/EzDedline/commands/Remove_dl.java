@@ -17,19 +17,21 @@ public class Remove_dl extends ListenerAdapter {
         {
 
             if(args.length >= 2) {
-                String name = args[1], course = args[2];
+                String name = "", course = "";
                 int y = 0;
                 try {
                     if(args.length > 2) {
+                        name = args[1];
+                        course = args[2];
                         y = 1;
                         Mongo_remove mongo_remove = new Mongo_remove();
 
                         mongo_remove.main(name, course, y);
                         }
                     else {
-                        if (args[1] == "completed") {
+                        if (args[1].equalsIgnoreCase( "completed")) {
                             y = 2;}
-                        else if(args[1] == "all"){
+                        else if(args[1].equalsIgnoreCase("all")){
                             y = 3;
                         }
                             Mongo_remove mongo_remove = new Mongo_remove();

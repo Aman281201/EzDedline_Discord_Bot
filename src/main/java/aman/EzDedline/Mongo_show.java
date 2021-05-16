@@ -149,5 +149,7 @@ public class Mongo_show {
         event.getChannel().sendTyping().queue();
         event.getChannel().sendMessage(show_2.build()).queue();
         show_2.clear();
+
+        mongoClient.close();
     }
 }

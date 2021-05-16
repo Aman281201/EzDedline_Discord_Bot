@@ -1,6 +1,7 @@
 package aman.EzDedline.commands;
 
 import aman.EzDedline.Main;
+import aman.EzDedline.Mongo_update;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -19,15 +20,8 @@ public class Update_dl extends ListenerAdapter {
                 String new_name = args[3] , new_course = args[4] , new_date = args[6], new_time = args[5];
                 String old_name = args[1] , old_course = args[2];
                 try {
-                    update.setTitle("\uD83D\uDC31\u200D\uD83D\uDE80Update Deadline ");
-                    update.setDescription("Enter the date time and name of deadline you wish to update <currently under-construction>");
-                    update.setColor(Color.decode("#a366ff"));
-                    update.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
-
-                    event.getChannel().sendTyping().queue();
-                    event.getChannel().sendMessage(update.build()).queue();
-                    update.clear();
-
+                    Mongo_update mongo_update = new Mongo_update();
+                    mongo_update.main(old_name, old_course,new_name, new_course,new_time, new_date);
 
                     EmbedBuilder success = new EmbedBuilder();
                     success.setColor(Color.decode("#80ff80"));
