@@ -19,14 +19,21 @@ public class Update_dl extends ListenerAdapter {
                 EmbedBuilder update = new EmbedBuilder();
                 String new_name = args[3] , new_course = args[4] , new_date = args[6], new_time = args[5];
                 String old_name = args[1] , old_course = args[2];
+                System.out.println(old_name + " " + old_course + " " + new_name + " " + new_course + " "+ new_date + " " + new_time);
                 try {
+
                     Mongo_update mongo_update = new Mongo_update();
                     mongo_update.main(old_name, old_course,new_name, new_course,new_time, new_date);
+
+                    if (new_name.compareTo("/") == 0)
+                        new_name = old_name;
+                    if (new_course.compareTo("/") == 0)
+                        new_course = old_course;
 
                     EmbedBuilder success = new EmbedBuilder();
                     success.setColor(Color.decode("#80ff80"));
                     success.setTitle("Successful");
-                    success.setDescription("Successfully updated the deadline to" + new_name + " of " + new_course );
+                    success.setDescription("Successfully updated the deadline to " + new_name + " of " + new_course );
                     success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
                     event.getChannel().sendMessage(success.build()).queue();
@@ -34,7 +41,7 @@ public class Update_dl extends ListenerAdapter {
                 catch (IllegalArgumentException e){
                     EmbedBuilder err = new EmbedBuilder();
                     err.setTitle("Information entered is either wrong or in wrong format");
-                    err.setDescription("Enter in following format {update <Name> <course> <Time(hh:mm)> <Date(dd/mm/yyyy)>");
+                    err.setDescription("Enter in following format {update <o name> <o course> <n name> <n course> <n time(hh:mm)> <n date(dd/mm/yyyy)>");
                     err.setColor(Color.decode("#ff4d4d"));
                     err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 

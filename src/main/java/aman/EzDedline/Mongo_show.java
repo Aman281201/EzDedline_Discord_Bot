@@ -32,14 +32,17 @@ public class Mongo_show {
         int l = 0;
         if (t != 0) {
             // weekly and daily deadlines
-
+            String  dat_tm, name, course;
 
             while (cursor.hasNext()) {
                 //DBObject field =  cursor.next();
-                System.out.println(cursor.next().get("dat_tm"));
-                String dat_tm = (String) cursor.next().get("dat_tm");
+                Document searchQuery = new Document();
+                searchQuery = cursor.next();
 
-                System.out.println(dat_tm);
+                dat_tm = (String) searchQuery.get("dat_tm");
+
+                name = (String) searchQuery.get("name");
+                course = (String) searchQuery.get("course");
 
 
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
@@ -87,12 +90,12 @@ public class Mongo_show {
                 else
                     date_end = date_end.substring(0, 7) + Integer.toString(d) + "/0" + Integer.toString(m) + date_end.substring(11);
 
+                System.out.println(date_end);
+
                 try {
                     Date date3 = sdf.parse(date_end);
                     if (date1.after(date2) && date1.before(date3)) {
 
-                        String name = (String) cursor.next().get("name");
-                        String course = (String) cursor.next().get("course");
                         l++;
                         show_2.addField("[" + l + "] " + name + " " + course, "Due on " + dat_tm, false);
                     }
@@ -105,12 +108,19 @@ public class Mongo_show {
 
             }
         } else {
+            String name , course , dat_tm;
+            System.out.println(cursor);
             while (cursor.hasNext()) {
                 //DBObject field = (DBObject) cursor.next();
 
-                String dat_tm = (String) cursor.next().get("dat_tm");
-                String name = (String) cursor.next().get("name");
-                String course = (String) cursor.next().get("course") ;
+                Document showQuery = new Document();
+                showQuery = cursor.next();
+
+                name = (String) showQuery.get("name");
+                course = (String) showQuery.get("course");
+                dat_tm = (String) showQuery.get("dat_tm");
+
+
 
                 System.out.println(name + "  " + course);
 
@@ -129,7 +139,6 @@ public class Mongo_show {
                 Date date2 = new Date();
 
                 System.out.println("date1 "+ date1);
-                System.out.println("  \n");
                 System.out.println("date2 " + date2);
                 if (date1.after(date2)) {
                     System.out.println("****** hey");

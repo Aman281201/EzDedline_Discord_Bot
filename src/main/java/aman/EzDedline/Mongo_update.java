@@ -28,10 +28,15 @@ public class Mongo_update {
 
         BasicDBObject searchQuery = new BasicDBObject();
 
-        if(n_name == "/" && n_course == "/" && n_date == "/" && n_time == "/")
-        {}
+        System.out.println("***hi 1");
+
+
+        if(n_name.compareTo("/") == 0 && n_course.compareTo("/") == 0 && n_date.compareTo("/") == 0 && n_time.compareTo("/") == 0)
+        {
+            System.out.println("in this loop");
+        }
         else{
-        if(n_name == "/" || n_course == "/" || n_date == "/" || n_time == "/" );
+        if(n_name.compareTo("/") == 0 || n_course.compareTo("/") == 0 || n_date.compareTo("/") == 0  || n_time.compareTo("/")== 0 );
         {
 
             searchQuery.append("name", o_name).append("course", o_course);
@@ -47,11 +52,20 @@ public class Mongo_update {
             if (n_time == "/")
                 n_time = ((String) cur.next().get("dat_tm")).split(" ")[0];
         }
+
         String n_dat_tm = n_time + " " + n_date;
             BasicDBObject updateQuery = new BasicDBObject();
             updateQuery.append("name", n_name).append("course", n_course).append("dat_tm", n_dat_tm);
 
-        collection.findOneAndUpdate(searchQuery,updateQuery);
+            Document update = new Document();
+            update.append("name", n_name).append("course", n_course).append("dat_tm", n_dat_tm);
+
+            Document search = new Document();
+            search.append("name", o_name).append("course", o_course);
+
+            System.out.println("hi  2");
+        collection.findOneAndUpdate(search,update);
+        System.out.println("hi 3");
         }
 
         mongoClient.close();
