@@ -27,6 +27,7 @@ public class Mongo_show {
         FindIterable<Document> iterable =  collection.find();
         MongoCursor<Document> cursor = iterable.iterator();
 
+        int count = 0;
 
         EmbedBuilder show_2 = new EmbedBuilder();
         int l = 0;
@@ -88,7 +89,7 @@ public class Mongo_show {
                     else
                         date_end = date_end.substring(0, 7) + Integer.toString(d) + "/" + Integer.toString(m) + date_end.substring(11); //hh:mm dd/MM/yyyy
                 else
-                    date_end = date_end.substring(0, 7) + Integer.toString(d) + "/0" + Integer.toString(m) + date_end.substring(11);
+                    date_end = date_end.substring(0, 6) + Integer.toString(d) + "/0" + Integer.toString(m) + date_end.substring(11);
 
                 System.out.println(date_end);
 
@@ -98,6 +99,7 @@ public class Mongo_show {
 
                         l++;
                         show_2.addField("[" + l + "] " + name + " " + course, "Due on " + dat_tm, false);
+                        count++;
                     }
 
 
@@ -145,12 +147,22 @@ public class Mongo_show {
 
                     l++;
                     show_2.addField("[" + l + "] " + name + " " + course, "Due on " + dat_tm, false);
+                    count++;
                 }
 
             }
 
 
         }
+
+        if(count == 0 && t == 1)
+            show_2.setTitle("No Deadlines in next 24 hours");
+        else if(count == 0 && t == 7)
+            show_2.setTitle("No Deadlines left in this week");
+        else if(count == 0 && t == 0)
+            show_2.setTitle("No incomplete deadlines in future");
+        else
+            show_2.setTitle("You have the following deadlines to complete");
 
         show_2.setColor(Color.decode("#6666ff"));
         show_2.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
