@@ -19,7 +19,7 @@ public class Update_dl extends ListenerAdapter {
                 EmbedBuilder update = new EmbedBuilder();
                 String new_name = args[3] , new_course = args[4] , new_date = args[6], new_time = args[5];
                 String old_name = args[1] , old_course = args[2];
-                System.out.println(old_name + " " + old_course + " " + new_name + " " + new_course + " "+ new_date + " " + new_time);
+
                 try {
 
                     Mongo_update mongo_update = new Mongo_update();

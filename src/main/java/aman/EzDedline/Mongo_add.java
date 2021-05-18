@@ -20,7 +20,7 @@ import java.net.UnknownHostException;
 public class Mongo_add {
     public static void main(String args) throws UnknownHostException
     {
-    final String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
+    final String uri = "";
 
     MongoClient mongoClient = MongoClients.create(uri);
 
@@ -45,8 +45,6 @@ public class Mongo_add {
         doc.append("course",course);
         doc.append("dat_tm", dat_tm);
 
-
-        System.out.println(collection);
         collection.insertOne(doc);
 
         mongoClient.close();

@@ -17,7 +17,7 @@ import java.util.Date;
 public class Mongo_update {
     public static void main(String o_name ,String o_course, String n_name, String n_course, String n_time, String n_date)
     {
-        final String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
+        final String uri = "";
         MongoClient mongoClient = MongoClients.create(uri);
 
         MongoDatabase DB = MongoClients.create().getDatabase("DB");
@@ -28,34 +28,41 @@ public class Mongo_update {
 
         BasicDBObject searchQuery = new BasicDBObject();
 
-        System.out.println("***hi 1");
+
 
 
         if(n_name.compareTo("/") == 0 && n_course.compareTo("/") == 0 && n_date.compareTo("/") == 0 && n_time.compareTo("/") == 0)
         {
-            System.out.println("in this loop");
+            ;
         }
         else{
         if(n_name.compareTo("/") == 0 || n_course.compareTo("/") == 0 || n_date.compareTo("/") == 0  || n_time.compareTo("/")== 0 );
         {
 
+
             searchQuery.append("name", o_name).append("course", o_course);
 
             FindIterable<Document> it = collection.find(searchQuery);
             MongoCursor<Document> cur = it.iterator();
-            if (n_name == "/")
-                n_name = (String) cur.next().get("name");
-            if (n_course == "/")
-                n_course = (String) cur.next().get("course");
-            if (n_date == "/")
-                n_date = ((String) cur.next().get("dat_tm")).split(" ")[1];
-            if (n_time == "/")
-                n_time = ((String) cur.next().get("dat_tm")).split(" ")[0];
+            Document update = new Document();
+            while(cur.hasNext())
+            {
+                update = cur.next();
+                break;
+            }
+
+            if (n_name.compareTo("/") == 0)
+                n_name = (String) update.get("name");
+            if (n_course.compareTo("/") == 0)
+                n_course = (String) update.get("course");
+            if (n_date.compareTo("/") == 0)
+                n_date = ((String) update.get("dat_tm")).split(" ")[1];
+            if (n_time.compareTo("/") == 0)
+                n_time = ((String) update.get("dat_tm")).split(" ")[0];
+
         }
 
         String n_dat_tm = n_time + " " + n_date;
-            BasicDBObject updateQuery = new BasicDBObject();
-            updateQuery.append("name", n_name).append("course", n_course).append("dat_tm", n_dat_tm);
 
             Document update = new Document();
             update.append("name", n_name).append("course", n_course).append("dat_tm", n_dat_tm);
@@ -63,9 +70,9 @@ public class Mongo_update {
             Document search = new Document();
             search.append("name", o_name).append("course", o_course);
 
-            System.out.println("hi  2");
-        collection.findOneAndUpdate(search,update);
-        System.out.println("hi 3");
+
+        collection.updateOne(search,new Document("$set", update));
+
         }
 
         mongoClient.close();

@@ -12,7 +12,7 @@ public class Mongo_remove {
 
     public static void main(String name , String course, int key)
     {
-        final String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
+        final String uri = "";
         MongoClient mongoClient = MongoClients.create(uri);
 
         MongoDatabase DB = MongoClients.create().getDatabase("DB");
@@ -32,19 +32,19 @@ public class Mongo_remove {
         {
             FindIterable<Document> it = collection.find();
             MongoCursor<Document> cur = it.iterator();
+            String dat_tm , n, c;
 
             while(cur.hasNext())
             {
-                String dat_tm , n, c;
-                n = (String) cur.next().get("name");
-                System.out.println(n + "\n");
-                c = (String) cur.next().get("course");
-                System.out.println(c);
-                dat_tm = (String) cur.next().get("dat_tm");
-                System.out.println(dat_tm);
 
+                Document removeQuery = new Document();
+                removeQuery = cur.next();
 
+                n = (String) removeQuery.get("name");
 
+                c = (String) removeQuery.get("course");
+
+                dat_tm = (String) removeQuery.get("dat_tm");
 
 
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
@@ -58,11 +58,13 @@ public class Mongo_remove {
                 }
                 if(date1.after(date2))
                 {
-                    System.out.println("*****hii");
+                    BasicDBObject remove = new BasicDBObject();
+                    remove.append("name", n).append("course", c);
+
                     Document doc = new Document();
                     doc.append("name", n).append("course", c);
 
-                    collection.deleteOne(doc);
+                    collection.deleteOne(remove);
                 }
 
 

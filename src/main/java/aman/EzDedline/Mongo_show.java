@@ -91,7 +91,7 @@ public class Mongo_show {
                 else
                     date_end = date_end.substring(0, 6) + Integer.toString(d) + "/0" + Integer.toString(m) + date_end.substring(11);
 
-                System.out.println(date_end);
+
 
                 try {
                     Date date3 = sdf.parse(date_end);
@@ -111,7 +111,7 @@ public class Mongo_show {
             }
         } else {
             String name , course , dat_tm;
-            System.out.println(cursor);
+
             while (cursor.hasNext()) {
                 //DBObject field = (DBObject) cursor.next();
 
@@ -121,11 +121,6 @@ public class Mongo_show {
                 name = (String) showQuery.get("name");
                 course = (String) showQuery.get("course");
                 dat_tm = (String) showQuery.get("dat_tm");
-
-
-
-                System.out.println(name + "  " + course);
-
 
 
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
@@ -140,10 +135,7 @@ public class Mongo_show {
 
                 Date date2 = new Date();
 
-                System.out.println("date1 "+ date1);
-                System.out.println("date2 " + date2);
                 if (date1.after(date2)) {
-                    System.out.println("****** hey");
 
                     l++;
                     show_2.addField("[" + l + "] " + name + " " + course, "Due on " + dat_tm, false);
