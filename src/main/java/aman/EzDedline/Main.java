@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws LoginException
     {
-        jda = JDABuilder.createDefault("").build();
+        jda = JDABuilder.createDefault("ODM2Mjc1NDYxMDU5MjQ4MTY4.YIboNw.wdB14baNDatyoDgxTLRWVf63pVIfff").build();
         jda.getPresence().setStatus(OnlineStatus.IDLE);
         jda.getPresence().setActivity(Activity.watching("you complete your deadlines {help for info"));
 

@@ -20,6 +20,7 @@ public class Add_dl extends ListenerAdapter {
 
     public void onGuildMessageReceived(GuildMessageReceivedEvent event)
     {
+        String serverID = event.getGuild().getId();
 
 
         String[] args = event.getMessage().getContentRaw().split("\\s+");
@@ -45,16 +46,31 @@ public class Add_dl extends ListenerAdapter {
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
                 try {
                     Date date = sdf.parse(date_time);
-                    Mongo_add data_mongo = new Mongo_add();
-                    data_mongo.main("abc");
+                    if(date.after(new Date())) {
+                        Mongo_add data_mongo = new Mongo_add();
+                        int x = data_mongo.main(serverID, event);
 
-                    EmbedBuilder success = new EmbedBuilder();
-                    success.setColor(Color.decode("#80ff80"));
-                    success.setTitle("Success");
-                    success.setDescription("Successfully added deadline " + Add_dl.name + " of " + Add_dl.course );
-                    success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+                        if(x == 0)
+                            return;
 
-                    event.getChannel().sendMessage(success.build()).queue();
+                        EmbedBuilder success = new EmbedBuilder();
+                        success.setColor(Color.decode("#80ff80"));
+                        success.setTitle("Success");
+                        success.setDescription("Successfully added deadline " + Add_dl.name + " of " + Add_dl.course);
+                        success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                        event.getChannel().sendMessage(success.build()).queue();
+                    }
+                    else {
+                        EmbedBuilder fail = new EmbedBuilder();
+                        fail.setColor(Color.decode("#ff4d4d"));
+                        fail.setTitle("Entered deadline is already over");
+                        fail.setDescription("Entered deadline must not be one of past");
+                        fail.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                        event.getChannel().sendMessage(fail.build()).queue();
+
+                    }
 
 
                 } catch (ParseException | UnknownHostException e) {

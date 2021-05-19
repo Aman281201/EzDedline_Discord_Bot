@@ -11,6 +11,8 @@ import java.awt.*;
 public class Remove_dl extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event)
     {
+        String serverID = event.getGuild().getId();
+
         String[] args = event.getMessage().getContentRaw().split("\\s+");
 
         if(args[0].equalsIgnoreCase(Main.prefix + "remove"))
@@ -18,7 +20,7 @@ public class Remove_dl extends ListenerAdapter {
 
             if(args.length >= 2) {
                 String name = "", course = "";
-                int y = 0;
+                int y = 0, x = 1;
                 try {
                     if(args.length > 2) {
                         name = args[1];
@@ -26,7 +28,7 @@ public class Remove_dl extends ListenerAdapter {
                         y = 1;
                         Mongo_remove mongo_remove = new Mongo_remove();
 
-                        mongo_remove.main(name, course, y);
+                         x = mongo_remove.main(name, course, y, serverID, event);
                         }
                     else {
                         if (args[1].equalsIgnoreCase( "completed")) {
@@ -35,11 +37,13 @@ public class Remove_dl extends ListenerAdapter {
                             y = 3;
                         }
                             Mongo_remove mongo_remove = new Mongo_remove();
-                            mongo_remove.main("abc", "xyz", y);
+                          x =  mongo_remove.main("abc", "xyz", y, serverID, event);
 
 
 
                     }
+                    if(x == 0)
+                        return;
                     if(y!=0){
 
                         EmbedBuilder success = new EmbedBuilder();
@@ -53,10 +57,22 @@ public class Remove_dl extends ListenerAdapter {
                         success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
                         event.getChannel().sendMessage(success.build()).queue();
-                    }}
+                    }
+                    else
+                    {
+                            EmbedBuilder err = new EmbedBuilder();
+                            err.setTitle("Information entered is either wrong or in wrong format");
+                            err.setDescription("Enter in following format {remove <Name> <course> or {remove completed or {remove all");
+                            err.setColor(Color.decode("#ff4d4d"));
+                            err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
+                            event.getChannel().sendTyping().queue();
+                            event.getChannel().sendMessage(err.build()).queue();
+                            err.clear();
 
+                    }
 
+                    }
                 catch (IllegalArgumentException e)
                 {
                     EmbedBuilder err = new EmbedBuilder();
@@ -69,6 +85,10 @@ public class Remove_dl extends ListenerAdapter {
                     event.getChannel().sendMessage(err.build()).queue();
                     err.clear();
                 }
+
+
+
+
 
             }
 

@@ -17,15 +17,45 @@ import java.util.Date;
 
 public class Mongo_show {
 
-    public static void main(String args, int t, GuildMessageReceivedEvent event) throws UnknownHostException {
+    public static void main(int t, GuildMessageReceivedEvent event, String serverDB) throws UnknownHostException {
+
         String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
 
         MongoClient mongoClient = MongoClients.create(uri);
 
-        MongoDatabase DB = MongoClients.create().getDatabase("DB");
-        MongoCollection<Document> collection = DB.getCollection("collection1");
-        FindIterable<Document> iterable =  collection.find();
-        MongoCursor<Document> cursor = iterable.iterator();
+        MongoDatabase DB = MongoClients.create().getDatabase(serverDB);
+        MongoCollection<Document> collection = DB.getCollection("Deadline_data");
+        FindIterable<Document> iterable = collection.find();
+        MongoCursor<Document> cursor = null;
+
+        try{
+        cursor = iterable.iterator();
+        }
+        catch (Exception e)
+           {if(e.toString().startsWith("com.mongodb.MongoTimeoutException: Timed out after 30000 ms while waiting to connect."))
+           {
+               EmbedBuilder error = new EmbedBuilder();
+               error.setColor(Color.decode("#ff4d4d"));
+               error.setTitle("Server Error");
+               error.setDescription("Our Servers are either undergoing construction or are offline at this moment. Please try again later");
+               error.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+               event.getChannel().sendMessage(error.build()).queue();
+
+
+           }
+           else
+           {
+               EmbedBuilder error = new EmbedBuilder();
+               error.setColor(Color.decode("#ff4d4d"));
+               error.setTitle("Unknown error occurred");
+               error.setDescription("Some unknown error occured make sure you entered data correctly");
+               error.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+               event.getChannel().sendMessage(error.build()).queue();
+           }
+           return;
+           }
 
         int count = 0;
 
@@ -33,7 +63,7 @@ public class Mongo_show {
         int l = 0;
         if (t != 0) {
             // weekly and daily deadlines
-            String  dat_tm, name, course;
+            String dat_tm, name, course;
 
             while (cursor.hasNext()) {
                 //DBObject field =  cursor.next();
@@ -92,7 +122,6 @@ public class Mongo_show {
                     date_end = date_end.substring(0, 6) + Integer.toString(d) + "/0" + Integer.toString(m) + date_end.substring(11);
 
 
-
                 try {
                     Date date3 = sdf.parse(date_end);
                     if (date1.after(date2) && date1.before(date3)) {
@@ -110,7 +139,7 @@ public class Mongo_show {
 
             }
         } else {
-            String name , course , dat_tm;
+            String name, course, dat_tm;
 
             while (cursor.hasNext()) {
                 //DBObject field = (DBObject) cursor.next();
@@ -127,7 +156,7 @@ public class Mongo_show {
                 Date date1 = null;
 
                 try {
-                   date1 = sdf.parse(dat_tm);
+                    date1 = sdf.parse(dat_tm);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -147,11 +176,11 @@ public class Mongo_show {
 
         }
 
-        if(count == 0 && t == 1)
+        if (count == 0 && t == 1)
             show_2.setTitle("No Deadlines in next 24 hours");
-        else if(count == 0 && t == 7)
+        else if (count == 0 && t == 7)
             show_2.setTitle("No Deadlines left in this week");
-        else if(count == 0 && t == 0)
+        else if (count == 0 && t == 0)
             show_2.setTitle("No incomplete deadlines in future");
         else
             show_2.setTitle("You have the following deadlines to complete");
@@ -164,5 +193,6 @@ public class Mongo_show {
         show_2.clear();
 
         mongoClient.close();
+
     }
 }

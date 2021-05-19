@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 public class Show_dl extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event)
     {
+        String serverID = event.getGuild().getId();
         String[] args = event.getMessage().getContentRaw().split("\\s+");
 
         if(args[0].equalsIgnoreCase(Main.prefix + "show"))
@@ -24,7 +25,7 @@ public class Show_dl extends ListenerAdapter {
                     Mongo_show show_data = new Mongo_show();
 
                     try {
-                        show_data.main("abc", 1, event);
+                        show_data.main( 1, event, serverID);
                     }
 
                     catch (UnknownHostException e) {
@@ -36,7 +37,7 @@ public class Show_dl extends ListenerAdapter {
                     EmbedBuilder show_2 = new EmbedBuilder();
                     Mongo_show show_data = new Mongo_show();
                     try {
-                        show_data.main("abc", 7, event);
+                        show_data.main(7, event, serverID);
                     }
 
                     catch (UnknownHostException e) {
@@ -47,7 +48,7 @@ public class Show_dl extends ListenerAdapter {
                 {
                     Mongo_show show_data = new Mongo_show();
                     try {
-                        show_data.main("abc", 0, event);
+                        show_data.main( 0, event,serverID);
                     }
 
                     catch (UnknownHostException e) {
@@ -62,7 +63,7 @@ public class Show_dl extends ListenerAdapter {
                 show.setDescription("enter following commands for precise results");
                 show.addField("{show today", "to see today's deadlines", false);
                 show.addField("{show weekly", "to see deadlines of this week", false);
-                show.addField("{show all", "to see all the deadlines", false);
+                show.addField("{show all", "to see all future deadlines", false);
                 show.setColor(Color.decode("#6666ff"));
                 show.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 

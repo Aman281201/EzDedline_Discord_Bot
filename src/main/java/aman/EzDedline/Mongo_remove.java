@@ -2,7 +2,11 @@ package aman.EzDedline;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.bson.Document;
+
+import java.awt.*;
 import java.util.Date;
 
 import java.text.ParseException;
@@ -10,18 +14,48 @@ import java.text.SimpleDateFormat;
 
 public class Mongo_remove {
 
-    public static void main(String name , String course, int key)
+    public static int main(String name , String course, int key, String serverDB, GuildMessageReceivedEvent event)
     {
-        final String uri = "";
+        final String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
         MongoClient mongoClient = MongoClients.create(uri);
 
-        MongoDatabase DB = MongoClients.create().getDatabase("DB");
-        MongoCollection<Document> collection = DB.getCollection("collection1");
+        MongoDatabase DB = MongoClients.create().getDatabase(serverDB);
+        MongoCollection<Document> collection = DB.getCollection("Deadline_data");
+
+        FindIterable<Document> it = collection.find();
+        MongoCursor<Document> cur = null;
+        try {
+            cur = it.iterator();
+        }
+        catch (Exception e)
+        {if(e.toString().startsWith("com.mongodb.MongoTimeoutException: Timed out after 30000 ms while waiting to connect."))
+        {
+            EmbedBuilder error = new EmbedBuilder();
+            error.setColor(Color.decode("#ff4d4d"));
+            error.setTitle("Server Error");
+            error.setDescription("Our Servers are either undergoing construction or are offline at this moment. Please try again later");
+            error.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+            event.getChannel().sendMessage(error.build()).queue();
+
+
+        }
+        else
+        {
+            EmbedBuilder error = new EmbedBuilder();
+            error.setColor(Color.decode("#ff4d4d"));
+            error.setTitle("Unknown error occurred");
+            error.setDescription("Some unknown error occured make sure you entered data correctly");
+            error.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+            event.getChannel().sendMessage(error.build()).queue();
+        }
+            return 0;
+        }
+
+
 
         if(key == 1) {
-
-            FindIterable<Document> it = collection.find();
-            MongoCursor<Document> cur = it.iterator();
 
             BasicDBObject del = new BasicDBObject("name", name);
             del.append("course", course);
@@ -30,8 +64,7 @@ public class Mongo_remove {
         }
         else if(key == 2)
         {
-            FindIterable<Document> it = collection.find();
-            MongoCursor<Document> cur = it.iterator();
+
             String dat_tm , n, c;
 
             while(cur.hasNext())
@@ -79,6 +112,6 @@ public class Mongo_remove {
         }
 
         mongoClient.close();
-
+        return 1;
     }
 }

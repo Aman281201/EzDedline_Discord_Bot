@@ -24,6 +24,7 @@ public class Commands extends ListenerAdapter {
             help.setColor(Color.decode("#99ffff"));
             help.setFooter(event.getMember().getEffectiveName(), event.getMember().getUser().getAvatarUrl());
 
+
             event.getChannel().sendTyping().queue();
             event.getChannel().sendMessage(help.build()).queue();
             help.clear();
