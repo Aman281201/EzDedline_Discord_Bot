@@ -41,6 +41,9 @@ public class Mongo_add {
         doc.append("name", name);
         doc.append("course",course);
         doc.append("dat_tm", dat_tm);
+        doc.append("user", event.getMember().getUser().getId());
+
+        System.out.println(event.getMember().getUser().getId());
 
         try{
             collection.insertOne(doc);

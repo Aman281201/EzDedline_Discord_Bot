@@ -2,6 +2,7 @@ package aman.EzDedline.commands;
 
 import aman.EzDedline.Main;
 import aman.EzDedline.Mongo_add;
+import aman.EzDedline.Reminder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -47,6 +48,7 @@ public class Add_dl extends ListenerAdapter {
                 try {
                     Date date = sdf.parse(date_time);
                     if(date.after(new Date())) {
+
                         Mongo_add data_mongo = new Mongo_add();
                         int x = data_mongo.main(serverID, event);
 
@@ -60,6 +62,10 @@ public class Add_dl extends ListenerAdapter {
                         success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
                         event.getChannel().sendMessage(success.build()).queue();
+
+                        Reminder reminder = new Reminder();
+                        reminder.async_remind(event,name,course,date_time);
+
                     }
                     else {
                         EmbedBuilder fail = new EmbedBuilder();
@@ -73,9 +79,9 @@ public class Add_dl extends ListenerAdapter {
                     }
 
 
-                } catch (ParseException | UnknownHostException e) {
+                } catch (Exception e) {
                     EmbedBuilder err = new EmbedBuilder();
-                    err.setTitle("Information enetered is either wrong or in wrong format");
+                    err.setTitle("Information entered is either wrong or in wrong format");
                     err.setDescription("Enter in following format {add <Name> <course> <Time(hh:mm)> <Date(dd/mm/yyyy)>");
                     err.setColor(Color.decode("#ff4d4d"));
                     err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
@@ -90,4 +96,4 @@ public class Add_dl extends ListenerAdapter {
     }
 }
 
-//      fields to add -> Server Name Course/Subject Time Date
+
