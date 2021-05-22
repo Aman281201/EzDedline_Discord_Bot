@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 import javax.security.auth.login.LoginException;
 
@@ -25,8 +27,7 @@ public class Main {
         jda.addEventListener(new Remove_dl());
         jda.addEventListener(new Update_dl());
         jda.addEventListener(new Show_dl());
-
-
+        jda.addEventListener(new Remind_channel());
 
 
     }

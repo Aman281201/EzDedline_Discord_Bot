@@ -30,7 +30,8 @@ public class Add_dl extends ListenerAdapter {
         {
             if(args.length < 5) {
                 EmbedBuilder add = new EmbedBuilder();
-                add.setTitle("Add Deadline ");
+                add.setThumbnail("https://seeklogo.com/images/C/charizard-logo-C9856A6142-seeklogo.com.png");
+                add.setTitle("\uD83E\uDD8BAdd Deadline ");
                 add.setDescription("Enter in following format {add <Name> <course> <Time(hh:mm)> <Date(dd/mm/yyyy)>");
                 add.setColor(Color.decode("#99ffff"));
                 add.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());

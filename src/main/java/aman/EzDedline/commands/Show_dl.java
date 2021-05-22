@@ -59,7 +59,8 @@ public class Show_dl extends ListenerAdapter {
             }
             else {
                 EmbedBuilder show = new EmbedBuilder();
-                show.setTitle("\uD83D\uDC31\u200D\uD83C\uDFCDShow Deadlines ");
+                show.setThumbnail("https://th.bing.com/th/id/R026e648eb4e34394db24db00a16becac?rik=oMVX9YVftznbiQ&riu=http%3a%2f%2fth06.deviantart.net%2ffs70%2fPRE%2fi%2f2014%2f016%2f9%2f9%2fbulbasaur_vector_by_pokinee-d72gf6c.png&ehk=wlKKnFg2oS6M60px12bncDc2oK4ajxR%2fy2QESV1IvSE%3d&risl=&pid=ImgRaw");
+                show.setTitle("\uD83D\uDC1EShow Deadlines ");
                 show.setDescription("enter following commands for precise results");
                 show.addField("{show today", "to see today's deadlines", false);
                 show.addField("{show weekly", "to see deadlines of this week", false);

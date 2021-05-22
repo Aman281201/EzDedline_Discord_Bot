@@ -59,7 +59,9 @@ public class Update_dl extends ListenerAdapter {
             }
             else{
                 EmbedBuilder update = new EmbedBuilder();
-                update.setTitle("\uD83D\uDC31\u200D\uD83D\uDE80Update Deadline ");
+                //update.setThumbnail("https://th.bing.com/th/id/R851acb85b00e7ed1a21dd3a9baf6c9af?rik=0s7dKSr2pdZkYA&riu=http%3a%2f%2fimg13.deviantart.net%2f5112%2fi%2f2013%2f319%2f9%2f0%2fvaporeon_vector_by_pokinee-d6ub4lt.png&ehk=YBrgBMj4doWQOyjRhsGyK8MVIroPofdn3tVFtk%2fkLJ4%3d&risl=&pid=ImgRaw");
+                update.setThumbnail("https://img00.deviantart.net/3381/i/2014/232/1/0/009_blastoise_by_pklucario-d7vy4xr.png");
+                update.setTitle("\uD83C\uDF40Update Deadline ");
                 update.setDescription("For updating the deadline");
                 update.addField("{update <o name> <o course> <n name> <n course> <n time(hh:mm)> <n date(dd/mm/yyyy)>", "o - old information, n - updated information", false);
                 update.addField("Use </> instead of <field>","To keep the field same as before", false);

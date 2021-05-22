@@ -95,7 +95,8 @@ public class Remove_dl extends ListenerAdapter {
             else
             {
                 EmbedBuilder remove = new EmbedBuilder();
-                remove.setTitle("\uD83D\uDC31\u200D\uD83D\uDC09Remove Deadline ");
+                remove.setThumbnail("https://th.bing.com/th/id/R9fa0ea9813187d4771485a622a5bbddb?rik=650TnlKz%2bMfnmQ&riu=http%3a%2f%2fgetdrawings.com%2fvectors%2fpikachu-vector-23.png&ehk=cnWD9yRPCtKhfx1RBz6IMFZF1REFGwjnkxhg69lybFk%3d&risl=&pid=ImgRaw");
+                remove.setTitle("\uD83C\uDF2DRemove Deadline ");
                 remove.setDescription("Enter the following commands for precise results");
                 remove.addField("{remove <Name> <Course>", "to remove the deadline", false);
                 remove.addField("{remove completed", "removes all deadlines that are over", false);
