@@ -70,7 +70,7 @@ public class Reminder {
             reminder.setColor(Color.decode("#ccff00"));
             reminder.setTitle("Reminder for Deadline");
             if(time_span!= 0)
-            reminder.setDescription("Deadline for " + name + " of " + course + " ends in 2 Hours");
+                reminder.setDescription("Deadline for " + name + " of " + course + " ends in 2 Hours");
             else
                 reminder.setDescription("Deadline for " + name + " of " + course + " ends in less than 2 Hours");
             event.getGuild().getDefaultChannel().sendTyping().queue();

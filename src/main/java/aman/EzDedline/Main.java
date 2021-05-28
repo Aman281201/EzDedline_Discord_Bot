@@ -28,7 +28,7 @@ public class Main {
         jda.addEventListener(new Update_dl());
         jda.addEventListener(new Show_dl());
         jda.addEventListener(new Remind_channel());
-
+        jda.addEventListener((new Remind_time()));
 
     }
 }

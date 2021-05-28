@@ -14,7 +14,7 @@ public class Commands extends ListenerAdapter {
         if (args[0].equalsIgnoreCase(Main.prefix + "help"))
         {
             EmbedBuilder help = new EmbedBuilder();
-            help.setTitle("\uD83D\uDC31\u200D\uD83D\uDC64 EzDedline bot info");
+            help.setTitle("\uD83D\uDC33EzDedline bot info");
 
 
             help.addField("","Basic Commands",false);
@@ -24,6 +24,7 @@ public class Commands extends ListenerAdapter {
             help.addField("\uD83C\uDF40{update","to change the deadline info",true);
             help.addField("","Other Commands",false);
             help.addField("\uD83C\uDF6D{setUpRemind","to make a default reminder channel",true);
+            help.addField("\uD83C\uDF34{remindTime", "how much time before deadline you wish to be reminded",true);
             help.addField("\uD83C\uDF49{clear","to clear up previous messages",true);
 
             help.setColor(Color.decode("#99ffff"));

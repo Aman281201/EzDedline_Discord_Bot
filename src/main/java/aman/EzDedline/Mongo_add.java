@@ -24,7 +24,13 @@ public class Mongo_add {
     {
         final String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
 
-        MongoClient mongoClient = MongoClients.create(uri);
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority");
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .retryWrites(true)
+                .build();
+        MongoClient mongoClient = MongoClients.create(settings);
+        //MongoClient mongoClient = MongoClients.create(uri);
 
         MongoDatabase DB = MongoClients.create().getDatabase(serverDB);
         MongoCollection<Document> collection = DB.getCollection("Deadline_data");
@@ -71,7 +77,7 @@ public class Mongo_add {
 
             event.getChannel().sendMessage(error.build()).queue();
         }
-        return 0;
+            return 0;
         }
 
         mongoClient.close();

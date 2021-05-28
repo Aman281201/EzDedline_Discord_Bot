@@ -1,5 +1,4 @@
 package aman.EzDedline;
-import aman.EzDedline.commands.Add_dl;
 import com.mongodb.*;
 import com.mongodb.client.*;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -8,11 +7,6 @@ import org.bson.Document;
 
 
 import java.awt.*;
-import java.net.UnknownHostException;
-import java.security.SecureRandom;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Mongo_update {
     public static int main(String o_name ,String o_course, String n_name, String n_course, String n_time, String n_date, String serverDB, GuildMessageReceivedEvent event)
