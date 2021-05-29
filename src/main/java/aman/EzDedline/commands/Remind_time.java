@@ -3,10 +3,8 @@ package aman.EzDedline.commands;
 import aman.EzDedline.Main;
 import aman.EzDedline.Mongo_add;
 import aman.EzDedline.Reminder;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -55,58 +53,89 @@ public class Remind_time extends ListenerAdapter {
 
                 MongoDatabase DB = MongoClients.create().getDatabase(serverDB);
                 MongoCollection<Document> collection = DB.getCollection("remind_data");
-
-            if(args.length < 3)
-            {
-                hrs = Integer.getInteger(args[1]);
-                System.out.println(collection.find(new Document().append("Default time","")));
-
-            }
-                if(args.length < 5){
-                Add_dl.name = args[1];
-                Add_dl.course = args[2];
-                Add_dl.date_time = args[3] + " " + args[4];
-
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
+                MongoCursor<Document> cur = null;
+                hrs = 2;
                 try {
-                    Date date = sdf.parse(date_time);
-                    if(date.after(new Date())) {
-
-                        Mongo_add data_mongo = new Mongo_add();
-                        int x = data_mongo.main(serverID, event);
-
-                        if(x == 0)
-                            return;
-
-                        EmbedBuilder success = new EmbedBuilder();
-                        success.setColor(Color.decode("#80ff80"));
-                        success.setTitle("Success");
-                        success.setDescription("Successfully added deadline " + Add_dl.name + " of " + Add_dl.course);
-                        success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
-
-                        event.getChannel().sendMessage(success.build()).queue();
-
-                        Reminder reminder = new Reminder();
-                        reminder.async_remind(event,name,course,date_time);
-
-                    }
-
-
-
-                } catch (Exception e) {
+                    hrs = Integer.getInteger(args[1]);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
                     EmbedBuilder err = new EmbedBuilder();
-                    err.setTitle("Information entered is either wrong or in wrong format");
-                    err.setDescription("Enter in following format {add <Name> <course> <Time(hh:mm)> <Date(dd/mm/yyyy)>");
+                    err.setTitle("Make sure you entered data correctly");
+                    err.setDescription("Number of hours must be numeric values");
                     err.setColor(Color.decode("#ff4d4d"));
                     err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
                     event.getChannel().sendTyping().queue();
                     event.getChannel().sendMessage(err.build()).queue();
                     err.clear();
+                    return;
+
                 }
+
+                if (args.length < 3) {
+
+                    BasicDBObject searchDefault = new BasicDBObject().append("name", "Default");
+                    FindIterable<Document> it =  collection.find(searchDefault);
+                    cur = it.iterator();
+                    if(cur.hasNext())
+                    {
+                        collection.updateOne(new Document().append("name","Default").append("time",hrs), new Document("$set", new Document().append("name","Default").append("time",hrs)));
+                    }
+                    else
+                    {
+                        collection.insertOne(new Document().append("name","Default").append("time",hrs));
+                    }
+
+
+                    EmbedBuilder success = new EmbedBuilder();
+                    success.setColor(Color.decode("#80ff80"));
+                    success.setTitle("Success");
+                    success.setDescription("Successfully updated default remind time to deadline " + hrs + "hours");
+                    success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                    event.getChannel().sendMessage(success.build()).queue();
+
+                    Reminder reminder = new Reminder();
+                    reminder.async_remind(event, name, course, date_time);
+
+                } else if (args.length < 5) {
+                    name = args[2];
+                    course = args[3];
+
+                    BasicDBObject searchDefault = new BasicDBObject().append("name", name).append("course",course);
+                    FindIterable<Document> it =  collection.find(searchDefault);
+                    cur = it.iterator();
+                    if(cur.hasNext())
+                    {
+                        collection.updateOne(new Document().append("name",name).append("course",course), new Document("$set", new Document().append("name",name).append("course",course).append("time",hrs)));
+                    }
+                    else
+                    {
+                        collection.insertOne(new Document().append("name",name).append("course", course).append("time",hrs));
+                    }
+
+
+                    EmbedBuilder success = new EmbedBuilder();
+                    success.setColor(Color.decode("#80ff80"));
+                    success.setTitle("Success");
+                    success.setDescription("Successfully updated default remind time for deadline " + name + " of " + course);
+                    success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                    event.getChannel().sendMessage(success.build()).queue();
+
+                    Reminder reminder = new Reminder();
+                    reminder.async_remind(event, name, course, date_time);
+
+                }
+
+
+            }
+
             }
 
         }
-    }}
-}
+    }
+
 

@@ -36,7 +36,8 @@ public class Mongo_update {
                         cur = it.iterator();
                     }
                     catch (Exception e)
-                    {if(e.toString().startsWith("com.mongodb.MongoTimeoutException: Timed out after 30000 ms while waiting to connect."))
+                    { e.printStackTrace();
+                        if(e.toString().startsWith("com.mongodb.MongoTimeoutException: Timed out after 30000 ms while waiting to connect."))
                     {
                         EmbedBuilder error = new EmbedBuilder();
                         error.setColor(Color.decode("#ff4d4d"));
