@@ -18,11 +18,11 @@ public class Remind_time extends ListenerAdapter {
 
     public static String name;
     public static String course;
-    public static String date_time;
+
 
     public void onGuildMessageReceived(GuildMessageReceivedEvent event)
     {
-        String serverID = event.getGuild().getId();
+        //String serverID = event.getGuild().getId();
 
 
         String[] args = event.getMessage().getContentRaw().split("\\s+");
@@ -39,6 +39,7 @@ public class Remind_time extends ListenerAdapter {
                 rtime.setDescription("Commands");
                 rtime.addField("{remindTime <number of hours>", "to set up default remind time",false);
                 rtime.addField("{remindTime <number of hours> <deadline_name> <course>", "to set up exclusive remind time for a particular deadline",false);
+                rtime.addField("{remindTime clear","to reset remind time data", false);
                 rtime.setColor(Color.decode("#d4b259"));
                 rtime.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
@@ -48,15 +49,35 @@ public class Remind_time extends ListenerAdapter {
             }
             else {
                 final String uri = "mongodb+srv://amank:aman@cluster0.7wsis.mongodb.net/DB?retryWrites=true&w=majority";
+
                 String serverDB = event.getGuild().getId();
                 MongoClient mongoClient = MongoClients.create(uri);
 
                 MongoDatabase DB = MongoClients.create().getDatabase(serverDB);
                 MongoCollection<Document> collection = DB.getCollection("remind_data");
+                MongoCollection<Document> collection2 = DB.getCollection("Deadline_data");
                 MongoCursor<Document> cur = null;
+
                 hrs = 2;
+
+                if(args[1].equalsIgnoreCase("clear"))
+                {
+                    collection.deleteMany(new BasicDBObject());
+                    collection.insertOne(new Document().append("name","Default").append("time",String.valueOf(hrs)));
+
+                    EmbedBuilder success = new EmbedBuilder();
+                    success.setColor(Color.decode("#80ff80"));
+                    success.setTitle("Success");
+                    success.setDescription("Successfully cleared remind time data");
+                    success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                    event.getChannel().sendMessage(success.build()).queue();
+                    return;
+                }
+
+
                 try {
-                    hrs = Integer.getInteger(args[1]);
+                    hrs = Integer.parseInt(args[1]);
                 }
                 catch (Exception e)
                 {
@@ -74,6 +95,7 @@ public class Remind_time extends ListenerAdapter {
 
                 }
 
+
                 if (args.length < 3) {
 
                     BasicDBObject searchDefault = new BasicDBObject().append("name", "Default");
@@ -81,7 +103,7 @@ public class Remind_time extends ListenerAdapter {
                     cur = it.iterator();
                     if(cur.hasNext())
                     {
-                        collection.updateOne(new Document().append("name","Default").append("time",hrs), new Document("$set", new Document().append("name","Default").append("time",hrs)));
+                        collection.updateOne(new Document().append("name","Default"),new Document("$set", new Document().append("name","Default").append("time",hrs)));
                     }
                     else
                     {
@@ -92,20 +114,39 @@ public class Remind_time extends ListenerAdapter {
                     EmbedBuilder success = new EmbedBuilder();
                     success.setColor(Color.decode("#80ff80"));
                     success.setTitle("Success");
-                    success.setDescription("Successfully updated default remind time to deadline " + hrs + "hours");
+                    success.setDescription("Successfully updated default remind time to deadline " + hrs + " hours");
                     success.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
                     event.getChannel().sendMessage(success.build()).queue();
 
-                    Reminder reminder = new Reminder();
-                    reminder.async_remind(event, name, course, date_time);
 
                 } else if (args.length < 5) {
                     name = args[2];
                     course = args[3];
+                    MongoCursor<Document> cursor = null;
 
-                    BasicDBObject searchDefault = new BasicDBObject().append("name", name).append("course",course);
-                    FindIterable<Document> it =  collection.find(searchDefault);
+                    BasicDBObject checkData = new BasicDBObject().append("name", name).append("course",course);
+                    FindIterable<Document> iterable =  collection2.find(checkData);
+                    cursor = iterable.iterator();
+                    if(!cursor.hasNext())
+                    {
+                        EmbedBuilder err = new EmbedBuilder();
+                        err.setTitle("Please check the data that you entered");
+                        err.setDescription("Deadline of this name and course does not exist");
+                        err.setColor(Color.decode("#ff4d4d"));
+                        err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                        event.getChannel().sendTyping().queue();
+                        event.getChannel().sendMessage(err.build()).queue();
+                        err.clear();
+                        return;
+                    }
+                    else
+                    {
+
+
+                    BasicDBObject searchQuery = new BasicDBObject().append("name", name).append("course",course);
+                    FindIterable<Document> it =  collection.find(searchQuery);
                     cur = it.iterator();
                     if(cur.hasNext())
                     {
@@ -125,8 +166,6 @@ public class Remind_time extends ListenerAdapter {
 
                     event.getChannel().sendMessage(success.build()).queue();
 
-                    Reminder reminder = new Reminder();
-                    reminder.async_remind(event, name, course, date_time);
 
                 }
 
@@ -137,5 +176,6 @@ public class Remind_time extends ListenerAdapter {
 
         }
     }
+}
 
 
