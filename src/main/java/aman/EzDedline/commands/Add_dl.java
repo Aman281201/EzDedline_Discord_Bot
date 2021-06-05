@@ -31,7 +31,7 @@ public class Add_dl extends ListenerAdapter {
                 add.setThumbnail("https://seeklogo.com/images/C/charizard-logo-C9856A6142-seeklogo.com.png");
                 add.setTitle("\uD83E\uDD8BAdd Deadline ");
                 add.setDescription("Enter in following format {add <Name> <course> <Time(hh:mm)> <Date(dd/mm/yyyy)>");
-                add.addField("","Bot will automatically remind you 2 hours before deadline",false);
+                add.addField("","Bot will automatically remind you few hours before deadline, If you want to set up new remind time for this deadline then first use {remindtime feature",false);
                 add.setColor(Color.decode("#99ffff"));
                 add.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 

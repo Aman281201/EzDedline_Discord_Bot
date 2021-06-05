@@ -40,6 +40,7 @@ public class Remind_time extends ListenerAdapter {
                 rtime.addField("{remindTime <number of hours>", "to set up default remind time",false);
                 rtime.addField("{remindTime <number of hours> <deadline_name> <course>", "to set up exclusive remind time for a particular deadline",false);
                 rtime.addField("{remindTime clear","to reset remind time data", false);
+                rtime.addField("","You cannot set reminder for already added deadlines, reminders need to be set before adding deadlines",false);
                 rtime.setColor(Color.decode("#d4b259"));
                 rtime.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
@@ -125,24 +126,24 @@ public class Remind_time extends ListenerAdapter {
                     course = args[3];
                     MongoCursor<Document> cursor = null;
 
-                    BasicDBObject checkData = new BasicDBObject().append("name", name).append("course",course);
-                    FindIterable<Document> iterable =  collection2.find(checkData);
-                    cursor = iterable.iterator();
-                    if(!cursor.hasNext())
-                    {
-                        EmbedBuilder err = new EmbedBuilder();
-                        err.setTitle("Please check the data that you entered");
-                        err.setDescription("Deadline of this name and course does not exist");
-                        err.setColor(Color.decode("#ff4d4d"));
-                        err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
-
-                        event.getChannel().sendTyping().queue();
-                        event.getChannel().sendMessage(err.build()).queue();
-                        err.clear();
-                        return;
-                    }
-                    else
-                    {
+//                    BasicDBObject checkData = new BasicDBObject().append("name", name).append("course",course);
+//                    FindIterable<Document> iterable =  collection2.find(checkData);
+//                    cursor = iterable.iterator();
+//                    if(!cursor.hasNext())
+//                    {
+//                        EmbedBuilder err = new EmbedBuilder();
+//                        err.setTitle("Please check the data that you entered");
+//                        err.setDescription("Deadline of this name and course does not exist");
+//                        err.setColor(Color.decode("#ff4d4d"));
+//                        err.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+//
+//                        event.getChannel().sendTyping().queue();
+//                        event.getChannel().sendMessage(err.build()).queue();
+//                        err.clear();
+//                        return;
+//                    }
+//                    else
+//                    {
 
 
                     BasicDBObject searchQuery = new BasicDBObject().append("name", name).append("course",course);
@@ -176,6 +177,6 @@ public class Remind_time extends ListenerAdapter {
 
         }
     }
-}
+
 
 
